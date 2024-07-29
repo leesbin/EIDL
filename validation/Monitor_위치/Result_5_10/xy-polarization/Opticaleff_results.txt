@@ -1,0 +1,3 @@
+Tb_mean: 0.303 Tg_mean: 0.189 Tr_mean: 0.439
+Tb_max: 0.404 Tg_max: 0.33 Tr_max: 0.699
+Tgr==Tgb?: yes
