@@ -1,0 +1,15 @@
+gamma = 0.014842
+gamma = 3.901911
+gamma = 1.819409
+gamma = 0.002514
+gamma = 4.885909
+gamma = 3.527526
+gamma = 0.005010
+gamma = 1.503269
+gamma = 1.255433
+gamma = 7.136977
+gamma = 0.000000
+gamma = 2.276004
+gamma = 0.595739
+gamma = 0.122555
+gamma = 3.558424

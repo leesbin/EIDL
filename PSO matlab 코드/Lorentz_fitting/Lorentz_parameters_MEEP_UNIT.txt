@@ -1,0 +1,9 @@
+gamma = 3.754186
+gamma = 1.504090
+gamma = 1.704988
+gamma = 0.478167
+gamma = 6.839037
+gamma = 7.491856
+gamma = 2.535562
+gamma = 3.430963
+gamma = 0.391182
