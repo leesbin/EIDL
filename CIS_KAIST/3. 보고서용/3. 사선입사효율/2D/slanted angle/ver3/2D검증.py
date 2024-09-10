@@ -126,13 +126,13 @@ def run_sim(rot_angle=0):
 	    # filter
 	    x = x.flatten()
 	    
-	    filtered_field = mpa.conic_filter(
-		x,
-		filter_radius,
-		design_region_width,
-		design_region_height,
-		design_region_resolution,
-	    )
+		filtered_field = mpa.conic_filter(
+			x,
+			filter_radius,
+			design_region_width,
+			design_region_height,
+			design_region_resolution,
+		)
 
 	    # projection
 	    # 출력값 -1 ~ 1으로 제한
