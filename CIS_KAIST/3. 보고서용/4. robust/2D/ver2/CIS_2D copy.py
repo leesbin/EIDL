@@ -65,7 +65,7 @@ nf = len(frequencies) # number of frequencies
 
 minimum_length = 0.08  # minimum length scale (microns)
 eta_i = 0.5  # blueprint (or intermediate) design field thresholding point (between 0 and 1)
-eta_e = 0.55  # erosion design field thresholding point (between 0 and 1)
+eta_e = 0.75  # erosion design field thresholding point (between 0 and 1)
 eta_d = 1 - eta_e  # dilation design field thresholding point (between 0 and 1)
 filter_radius = mpa.get_conic_radius_from_eta_e(minimum_length, 0.75)
 design_region_resolution = int(resolution)
@@ -230,20 +230,20 @@ sim1 = mp.Simulation(
     cell_size=cell_size, 
     boundary_layers=pml_layers,
     geometry=geometry,
-    sources=source1,
+    sources=source0,
     default_material=Air, # 빈공간
     resolution=resolution,
-    k_point = k_point_n,
+    k_point = k_point_0,
 )
 
 sim2 = mp.Simulation(
     cell_size=cell_size, 
     boundary_layers=pml_layers,
     geometry=geometry,
-    sources=source2,
+    sources=source0,
     default_material=Air, # 빈공간
     resolution=resolution,
-    k_point = k_point_p,
+    k_point = k_point_0,
 )
 
 
@@ -354,8 +354,8 @@ def c(result, x, gradient, beta):
     v=x[1:]
     
     f0_0, dJ_du0 = opt0([mapping(v, eta_i, beta)])  # compute objective and gradient
-    f0_1, dJ_du1 = opt1([mapping(v, eta_i, beta)])  # compute objective and gradient
-    f0_2, dJ_du2 = opt2([mapping(v, eta_i, beta)])  # compute objective and gradient
+    f0_1, dJ_du1 = opt1([mapping(v, eta_d, beta)])  # compute objective and gradient
+    f0_2, dJ_du2 = opt2([mapping(v, eta_e, beta)])  # compute objective and gradient
 
     f0_0 = f0_0.flatten()
     f0_1 = f0_1.flatten()

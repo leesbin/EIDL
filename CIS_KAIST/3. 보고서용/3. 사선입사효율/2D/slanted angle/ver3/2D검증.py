@@ -283,9 +283,7 @@ def run_sim(rot_angle=0):
     opt.sim.plot2D(fields=mp.Ez,
                source_parameters={'alpha':0},
                boundary_parameters={'alpha':0})
-    plt.cla()   # clear the current axes
-    plt.clf()   # clear the current figure
-    plt.close() # closes the current figure
+
 
     opt.sim.reset_meep()
 
@@ -322,9 +320,6 @@ def run_sim(rot_angle=0):
     opt.sim.plot2D(fields=mp.Ez,
                source_parameters={'alpha':0},
                boundary_parameters={'alpha':0})
-    plt.cla()   # clear the current axes
-    plt.clf()   # clear the current figure
-    plt.close() # closes the current figure
 
     opt.sim.reset_meep()
 
@@ -411,9 +406,7 @@ def run_sim(rot_angle=0):
     plt.fill([25, 25, 50, 50], [200, 150, 150, 200], color='lightgreen', alpha=0.5)
     plt.fill([0, 0, 25, 25], [200, 150, 150, 200], color='lightcoral', alpha=0.5)
     plt.colorbar()
-    plt.cla()   # clear the current axes
-    plt.clf()   # clear the current figure
-    plt.close() # closes the current figure
+
     opt.sim.reset_meep()
 
     opt.sim = mp.Simulation(
@@ -457,9 +450,7 @@ def run_sim(rot_angle=0):
     plt.fill([25, 25, 50, 50], [200, 150, 150, 200], color='lightgreen', alpha=0.5)
     plt.fill([0, 0, 25, 25], [200, 150, 150, 200], color='lightcoral', alpha=0.5)
     plt.colorbar()
-    plt.cla()   # clear the current axes
-    plt.clf()   # clear the current figure
-    plt.close() # closes the current figure
+
     opt.sim.reset_meep()
 
     opt.sim = mp.Simulation(
@@ -501,10 +492,11 @@ def run_sim(rot_angle=0):
     plt.fill([25, 25, 50, 50], [200, 150, 150, 200], color='lightgreen', alpha=0.5)
     plt.fill([0, 0, 25, 25], [200, 150, 150, 200], color='lightcoral', alpha=0.5)
     plt.colorbar()
+    
+    plt.savefig("IntensityBlue" + str(rot_angle) + ".png")
     plt.cla()   # clear the current axes
     plt.clf()   # clear the current figure
     plt.close() # closes the current figure
-    plt.savefig("IntensityBlue" + str(rot_angle) + ".png")
 
 
     # In[ ]:
@@ -546,9 +538,7 @@ def run_sim(rot_angle=0):
     opt.sim.plot2D(fields=mp.Ez,
                source_parameters={'alpha':0},
                boundary_parameters={'alpha':0})
-    plt.cla()   # clear the current axes
-    plt.clf()   # clear the current figure
-    plt.close() # closes the current figure
+
     opt.sim.reset_meep()
 
     opt.sim = mp.Simulation(
@@ -584,9 +574,7 @@ def run_sim(rot_angle=0):
     opt.sim.plot2D(fields=mp.Ez,
                source_parameters={'alpha':0},
                boundary_parameters={'alpha':0})
-    plt.cla()   # clear the current axes
-    plt.clf()   # clear the current figure
-    plt.close() # closes the current figure
+  
     opt.sim.reset_meep()
 
     opt.sim = mp.Simulation(
@@ -622,10 +610,10 @@ def run_sim(rot_angle=0):
     opt.sim.plot2D(fields=mp.Ez,
                source_parameters={'alpha':0},
                boundary_parameters={'alpha':0})
+    plt.savefig("EzGreen" + str(rot_angle) + ".png")
     plt.cla()   # clear the current axes
     plt.clf()   # clear the current figure
     plt.close() # closes the current figure
-    plt.savefig("EzGreen" + str(rot_angle) + ".png")
 
 
     # In[23]:
@@ -671,9 +659,7 @@ def run_sim(rot_angle=0):
     plt.fill([25, 25, 50, 50], [200, 150, 150, 200], color='lightgreen', alpha=0.5)
     plt.fill([0, 0, 25, 25], [200, 150, 150, 200], color='lightcoral', alpha=0.5)
     plt.colorbar()
-    plt.cla()   # clear the current axes
-    plt.clf()   # clear the current figure
-    plt.close() # closes the current figure
+
     opt.sim.reset_meep()
 
     opt.sim = mp.Simulation(
@@ -714,9 +700,7 @@ def run_sim(rot_angle=0):
     plt.fill([25, 25, 50, 50], [200, 150, 150, 200], color='lightgreen', alpha=0.5)
     plt.fill([0, 0, 25, 25], [200, 150, 150, 200], color='lightcoral', alpha=0.5)
     plt.colorbar()
-    plt.cla()   # clear the current axes
-    plt.clf()   # clear the current figure
-    plt.close() # closes the current figure
+ 
     opt.sim.reset_meep()
 
     opt.sim = mp.Simulation(
@@ -757,10 +741,10 @@ def run_sim(rot_angle=0):
     plt.fill([25, 25, 50, 50], [200, 150, 150, 200], color='lightgreen', alpha=0.5)
     plt.fill([0, 0, 25, 25], [200, 150, 150, 200], color='lightcoral', alpha=0.5)
     plt.colorbar()
+    plt.savefig("IntensityGreen"+str(rot_angle)+".png")
     plt.cla()   # clear the current axes
     plt.clf()   # clear the current figure
     plt.close() # closes the current figure
-    plt.savefig("IntensityGreen"+str(rot_angle)+".png")
 
 
     # In[59]:
@@ -803,9 +787,7 @@ def run_sim(rot_angle=0):
     opt.sim.plot2D(fields=mp.Ez,
                source_parameters={'alpha':0},
                boundary_parameters={'alpha':0})
-    plt.cla()   # clear the current axes
-    plt.clf()   # clear the current figure
-    plt.close() # closes the current figure
+
     opt.sim.reset_meep()
 
     opt.sim = mp.Simulation(
@@ -842,9 +824,7 @@ def run_sim(rot_angle=0):
     opt.sim.plot2D(fields=mp.Ez,
                source_parameters={'alpha':0},
                boundary_parameters={'alpha':0})
-    plt.cla()   # clear the current axes
-    plt.clf()   # clear the current figure
-    plt.close() # closes the current figure
+
     opt.sim.reset_meep()
 
     opt.sim = mp.Simulation(
@@ -932,9 +912,7 @@ def run_sim(rot_angle=0):
     plt.fill([25, 25, 50, 50], [200, 150, 150, 200], color='lightgreen', alpha=0.5)
     plt.fill([0, 0, 25, 25], [200, 150, 150, 200], color='lightcoral', alpha=0.5)
     plt.colorbar()
-    plt.cla()   # clear the current axes
-    plt.clf()   # clear the current figure
-    plt.close() # closes the current figure
+
     opt.sim.reset_meep()
 
     opt.sim = mp.Simulation(
@@ -976,9 +954,7 @@ def run_sim(rot_angle=0):
     plt.fill([25, 25, 50, 50], [200, 150, 150, 200], color='lightgreen', alpha=0.5)
     plt.fill([0, 0, 25, 25], [200, 150, 150, 200], color='lightcoral', alpha=0.5)
     plt.colorbar()
-    plt.cla()   # clear the current axes
-    plt.clf()   # clear the current figure
-    plt.close() # closes the current figure
+  
     opt.sim.reset_meep()
 
     opt.sim = mp.Simulation(
@@ -1020,10 +996,11 @@ def run_sim(rot_angle=0):
     plt.fill([25, 25, 50, 50], [200, 150, 150, 200], color='lightgreen', alpha=0.5)
     plt.fill([0, 0, 25, 25], [200, 150, 150, 200], color='lightcoral', alpha=0.5)
     plt.colorbar()
+
+    plt.savefig("IntensityRed"+str(rot_angle)+".png")
     plt.cla()   # clear the current axes
     plt.clf()   # clear the current figure
     plt.close() # closes the current figure
-    plt.savefig("IntensityRed"+str(rot_angle)+".png")
 
 
     # In[158]:

@@ -122,9 +122,6 @@ def run_sim(rot_angle=0):
 	)
 
 
-	# In[13]:
-
-
 	# filter.py conic_filter 함수와 simple_2d_filter 함수를 사용
 	def mapping(x, eta, beta):
 	    # filter
@@ -145,8 +142,6 @@ def run_sim(rot_angle=0):
 	    # interpolate to actual materials
 	    return projected_field.flatten()
 
-
-	# In[14]:
 
 
 	# design region과 동일한 size의 Block 생성
@@ -169,7 +164,6 @@ def run_sim(rot_angle=0):
 	]
 
 
-	# In[15]:
 
 
 	# Meep simulation 세팅
@@ -185,7 +179,6 @@ def run_sim(rot_angle=0):
 	)
 
 
-	# In[16]:
 
 
 	# 모니터 위치와 크기 설정 (focal point)
@@ -193,8 +186,6 @@ def run_sim(rot_angle=0):
 	monitor_position_1, monitor_size_1 = mp.Vector3(0, -2 - 0.5/resolution), mp.Vector3(0.01,0) 
 	monitor_position_2, monitor_size_2 = mp.Vector3(1, -2 - 0.5/resolution), mp.Vector3(0.01,0)
 
-
-	# In[17]:
 
 
 	# FourierFields를 통해 monitor_position에서 monitor_size만큼의 영역에 대한 Fourier transform을 구함
@@ -210,7 +201,6 @@ def run_sim(rot_angle=0):
 	ob_list = [FourierFields_0, FourierFields_1, FourierFields_2,FourierFields_3, FourierFields_4, FourierFields_5 ,FourierFields_6, FourierFields_7, FourierFields_8]
 
 
-	# In[18]:
 
 
 	# J : Objective function
@@ -223,8 +213,6 @@ def run_sim(rot_angle=0):
 	# def J_2(fields):
 	#     return npa.mean(npa.abs(fields[2,:]) ** 2)
 
-
-	# In[19]:
 
 
 	opt = mpa.OptimizationProblem(
