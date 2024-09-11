@@ -46,6 +46,15 @@ pml_size = 1 # PML 영역 크기
 
 structure_weight = np.loadtxt('lastdesign.txt')
 
+structure_weight = mpa.conic_filter(
+        structure_weight,
+        0.08,
+        design_region_width,
+        design_region_height,
+        resolution,
+    )
+structure_weight = mpa.tanh_projection(structure_weight, mp.inf, 0.75)
+
 
 # In[5]:
 
@@ -154,7 +163,15 @@ design_region = mpa.DesignRegion(
         size=mp.Vector3(design_region_width, design_region_height, 0),
     ),
 )
+# Last design plot
 
+plt.imshow(npa.rot90(design_variables.weights.reshape(Nx, Ny)), cmap='binary')
+plt.colorbar()
+
+plt.savefig("lastdesign_e.png")
+plt.cla()   # clear the current axes
+plt.clf()   # clear the current figure
+plt.close() # closes the current figure
 
 # In[12]:
 
@@ -270,10 +287,7 @@ opt = mpa.OptimizationProblem(
     frequencies=frequencies,
     decay_by=1e-1,
 )
-plt.fill([Sx/6, Sx/6, Sx/2, Sx/2], [-Sy/2, -Sy/2+pml_size, -Sy/2+pml_size, -Sy/2], color='blue', alpha=0.5)
-plt.fill([-Sx/6, -Sx/6, Sx/6, Sx/6], [-Sy/2, -Sy/2+pml_size, -Sy/2+pml_size, -Sy/2], color='green', alpha=0.5)
-plt.fill([-Sx/2, -Sx/2, -Sx/6, -Sx/6], [-Sy/2, -Sy/2+pml_size, -Sy/2+pml_size, -Sy/2], color='red', alpha=0.5)
-opt.plot2D(False)
+opt.plot2D(True)
 plt.savefig("Lastdesign.png")
 
 
