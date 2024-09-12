@@ -44,7 +44,7 @@ pml_size = 1 # PML 영역 크기
 # In[4]:
 
 
-structure_weight = np.loadtxt('lastdesign.txt')
+structure_weight = np.loadtxt('v.txt')
 
 structure_weight = mpa.conic_filter(
         structure_weight,
