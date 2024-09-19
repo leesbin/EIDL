@@ -21,7 +21,7 @@ Dipersion_model = False # dispersion model                          #
 #####################################################################
 
 # Figure check ######################################################
-Figplot = False # Figure plot                                       #
+Figplot = True # Figure plot                                       #
 #####################################################################
 
 # Fab constraint ####################################################
@@ -85,15 +85,15 @@ for i in mlsize_list:
             ar_thktop = round(o_grid * 0, 2)                                                 
             ar_thkbottom = round(o_grid * 0, 2)                                              
         if FL:                                                                               
-            fl_thickness = round(o_grid * 40, 2) # focal layer thickness 800 nm              
+            fl_thickness = round(o_grid * 100, 2) # focal layer thickness 2000 nm              
         else:                                                                                
             fl_thickness = round(o_grid * 0, 2)
         
         ml_thickness_1 = round(o_grid * i, 2) # multi layer thickness 400 nm 
-        ml_thickness_2 = round(o_grid * i, 2) # multi layer thickness 400 nm 
-        ml_thickness_3 = round(o_grid * i, 2) # multi layer thickness 400 nm 
-        ml_thickness_4 = round(o_grid * i, 2) # multi layer thickness 400 nm  
-        ml_thickness_5 = round(o_grid * i, 2) # multi layer thickness 400 nm 
+        ml_thickness_2 = round(o_grid * 0, 2) # multi layer thickness 400 nm 
+        ml_thickness_3 = round(o_grid * 0, 2) # multi layer thickness 400 nm 
+        ml_thickness_4 = round(o_grid * 0, 2) # multi layer thickness 400 nm  
+        ml_thickness_5 = round(o_grid * 0, 2) # multi layer thickness 400 nm 
         el_thickness = round(o_grid * 0, 2) # etch layer thickness 0 nm
         
         if DTI:
@@ -135,7 +135,7 @@ for i in mlsize_list:
             # Design Region mesh size
         Nx = int(round(design_region_resolution * design_region_width_x)) + 1
         Ny = int(round(design_region_resolution * design_region_width_y)) + 1 
-        Nz = int(round(design_region_resolution * design_region_height)) + 1
+        Nz = 1
 
     if True: #####  Set wavelengths and sources  ##################################################################################################################
         wavelengths_pieces = np.linspace(0.4*um_scale, 0.7*um_scale, 31)
@@ -919,7 +919,7 @@ for i in mlsize_list:
                 
                 # Calculate the fom and the gradient
                 f0, dJ_du = opt([x]) 
-                               
+
                 # Adjoint gradient
                 if v.size > 0:
                     gradient = v*0
