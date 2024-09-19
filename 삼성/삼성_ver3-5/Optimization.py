@@ -89,7 +89,7 @@ for i in mlsize_list:
         ml_thickness_2 = round(o_grid * i, 2) # multi layer thickness 200 nm 
         ml_thickness_3 = round(o_grid * i, 2) # multi layer thickness 200 nm 
         ml_thickness_4 = round(o_grid * i, 2) # multi layer thickness 200 nm  
-        ml_thickness_5 = round(o_grid * 0, 2) # multi layer thickness 200 nm 
+        ml_thickness_5 = round(o_grid * i, 2) # multi layer thickness 200 nm 
         el_thickness = round(o_grid * 0, 2) # etch layer thickness 0 nm
         
         if DTI:
@@ -198,14 +198,14 @@ for i in mlsize_list:
             ),
         )
 
-        # design_variables_4 = mp.MaterialGrid(mp.Vector3(Nx, Ny), SiO2, TiO2, grid_type="U_MEAN",do_averaging=False)
-        # design_region_4 = mpa.DesignRegion(
-        #     design_variables_4,
-        #     volume=mp.Volume(
-        #         center=mp.Vector3(0, 0, round(Sz / 2 - Lpml -  pml_2_src - src_2_geo - ar_thktop - ml_thickness_1 - el_thickness - ml_thickness_2 - el_thickness - ml_thickness_3 - el_thickness - ml_thickness_4 - el_thickness - ml_thickness_5/2, 2)),
-        #         size=mp.Vector3(design_region_width_x, design_region_width_y, ml_thickness_5),
-        #     ),
-        # )
+        design_variables_4 = mp.MaterialGrid(mp.Vector3(Nx, Ny), SiO2, TiO2, grid_type="U_MEAN",do_averaging=False)
+        design_region_4 = mpa.DesignRegion(
+            design_variables_4,
+            volume=mp.Volume(
+                center=mp.Vector3(0, 0, round(Sz / 2 - Lpml -  pml_2_src - src_2_geo - ar_thktop - ml_thickness_1 - el_thickness - ml_thickness_2 - el_thickness - ml_thickness_3 - el_thickness - ml_thickness_4 - el_thickness - ml_thickness_5/2, 2)),
+                size=mp.Vector3(design_region_width_x, design_region_width_y, ml_thickness_5),
+            ),
+        )
 
     else: # One Design Region
         design_variables = mp.MaterialGrid(mp.Vector3(Nx, Ny, Nz), SiO2, SiN, grid_type="U_MEAN",do_averaging=False)
@@ -245,9 +245,9 @@ for i in mlsize_list:
             mp.Block(
                 center=design_region_3.center, size=design_region_3.size, material=design_variables_3
             ),
-            # mp.Block(
-            #     center=design_region_4.center, size=design_region_4.size, material=design_variables_4
-            # ),
+            mp.Block(
+                center=design_region_4.center, size=design_region_4.size, material=design_variables_4
+            ),
         ]
 
     if Norm: ##### normalization flux calculation #################################################################################################################
@@ -691,13 +691,13 @@ for i in mlsize_list:
         simulation=sim,
         objective_functions=[J],
         objective_arguments=ob_list,
-        design_regions=[design_region_0, design_region_1, design_region_2, design_region_3,],# design_region_4],
+        design_regions=[design_region_0, design_region_1, design_region_2, design_region_3, design_region_4],
         frequencies=frequencies,
         decay_by=1e-3,
         # maximum_run_time=300,
     )
     
-    if True: ##### Structure Plot ############################################################################################################################
+    if False: ##### Structure Plot ############################################################################################################################
         opt.plot2D(True, output_plane = mp.Volume(size = (Sx, 0, Sz), center = (0, design_region_width_y/4,0)),
                 # source_parameters={'alpha':0},
                 #     boundary_parameters={'alpha':0},
@@ -753,7 +753,7 @@ for i in mlsize_list:
         print("Current iteration: {}".format(cur_iter[0] + 1))
 
         # Apply mapping
-        x1, x2, x3, x4 = Mapping.multiregion_mapping(v,                             # design variables
+        x1, x2, x3, x4, x5 = Mapping.multiregion_mapping(v,                             # design variables
                                                          eta_i,                         # threshold point of the linear filter
                                                          cur_beta,                      # binarization parameter
                                                          0,                             # separate the design variables for layers
@@ -787,12 +787,12 @@ for i in mlsize_list:
         if True: ##### compute objective and gradient ############################################################################################
             
             # Calculate the fom and the gradient
-            f0, dJ_du = opt([x1, x2, x3, x4,])# x5]) 
+            f0, dJ_du = opt([x1, x2, x3, x4, x5]) 
 
             # Compute the entire gradient
             t_dJ_du = []
-            t_dJ_du = npa.concatenate([np.sum(dJ_du[0],axis=1), np.sum(dJ_du[1],axis=1), np.sum(dJ_du[2],axis=1), np.sum(dJ_du[3],axis=1)])
-            t_dJ_du = ((t_dJ_du.reshape(4,Nx*Ny)).transpose()).flatten()
+            t_dJ_du = npa.concatenate([np.sum(dJ_du[0],axis=1), np.sum(dJ_du[1],axis=1), np.sum(dJ_du[2],axis=1), np.sum(dJ_du[3],axis=1), np.sum(dJ_du[4],axis=1)])
+            t_dJ_du = ((t_dJ_du.reshape(5,Nx*Ny)).transpose()).flatten()
 
             if Momentum_dJ_du: ##### dJ_du momentum #####################################################################################################
                 updated_v, adam_lr, adam_t, m_dJ_du = optimizer.update(v, t_dJ_du)
@@ -840,7 +840,7 @@ for i in mlsize_list:
             np.savetxt("./" + directory_name+"/structure_1_"+str(numevl) +".txt", design_variables_1.weights)
             np.savetxt("./" + directory_name+"/structure_2_"+str(numevl) +".txt", design_variables_2.weights)
             np.savetxt("./" + directory_name+"/structure_3_"+str(numevl) +".txt", design_variables_3.weights)
-            # np.savetxt("./" + directory_name+"/structure_4_"+str(numevl) +".txt", design_variables_4.weights)
+            np.savetxt("./" + directory_name+"/structure_4_"+str(numevl) +".txt", design_variables_4.weights)
         
         numevl += 1
 
@@ -856,7 +856,7 @@ for i in mlsize_list:
         return np.real(f0), updated_v, X
 
     if True: ##### Optimization ############################################################################################################################
-        n = Nx * Ny * 4  # number of design variables
+        n = Nx * Ny * 5  # number of design variables
         x = np.ones((n,)) * 0.5
 
         # Initialize parameters
@@ -1001,4 +1001,4 @@ for i in mlsize_list:
         np.savetxt("./" + directory_name+"/lastdesign2.txt", design_variables_1.weights)
         np.savetxt("./" + directory_name+"/lastdesign3.txt", design_variables_2.weights)
         np.savetxt("./" + directory_name+"/lastdesign4.txt", design_variables_3.weights)
-        # np.savetxt("./" + directory_name+"/lastdesign5.txt", design_variables_4.weights)
+        np.savetxt("./" + directory_name+"/lastdesign5.txt", design_variables_4.weights)
