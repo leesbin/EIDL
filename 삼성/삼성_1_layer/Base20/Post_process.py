@@ -45,7 +45,7 @@ AR = False # AR coating                                             #
 # PostProcess Condtion ##############################################
 simcondition = True                                                 #
 designplot = False                                                   #
-DFTfield = False                                                     #
+DFTfield = True                                                     #
 Opticaleff = True                                                   #  
 layerplot = True                                                    #
 Sensitivity = False                                                  #
