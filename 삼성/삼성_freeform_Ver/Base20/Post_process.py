@@ -44,10 +44,10 @@ AR = False # AR coating                                             #
 
 # PostProcess Condtion ##############################################
 simcondition = True                                                 #
-designplot = True                                                   #
+designplot = False                                                   #
 DFTfield = False                                                     #
 Opticaleff = True                                                   #  
-layerplot = True                                                    #
+layerplot = False                                                    #
 Sensitivity = False                                                  #
 Crosstalk = False                                                    #
 Discrete = False                                                     #
@@ -120,9 +120,10 @@ for i in x_list:
         #####################################################################
 
         # resolution ########################################################
-        resolution = 50                                                     #
-        o_grid = 1/resolution # 20nm                                        #
-        design_region_resolution = int(resolution)                          #
+        resolution = 100                                                     #
+        res = 50
+        o_grid = 1/res # 20nm                                        #
+        design_region_resolution = int(res)                          #
         #####################################################################
         
         if True: ##### Set main parameters ############################################################################################################################                                                                                                                                  
@@ -786,17 +787,27 @@ for i in x_list:
 
         if mp.am_master():
             plt.figure(dpi=150)
-            plt.plot(wl, Tr, "r", label="R")
-            plt.plot(wl, Tgr, "g", label="Gb")
-            plt.plot(wl, Tb, "b", label="B")
-            plt.plot(wl, Tgb, color='limegreen', label="Gr")
-            
-            plt.axis([0.40, 0.70, 0, 1])
+            # 특정 영역의 범위를 지정
+            highlight_ranges = [(0.41, 0.49), (0.51, 0.59), (0.61, 0.69)]
+            # 전체 그래프를 흐리게 그리기 (alpha 값으로 투명도 조절)
+            plt.plot(wl, Tr, "r", alpha=0.2)  # 빨간색 그래프 흐리게
+            plt.plot(wl, Tgr, "g", alpha=0.2)  # 초록색 그래프 흐리게
+            plt.plot(wl, Tb, "b", alpha=0.2)  # 파란색 그래프 흐리게
+            plt.plot(wl, Tgb, color='limegreen', alpha=0.2)
+
+            # 강조할 특정 영역만 선명하게 그리기
+            for r_min, r_max in highlight_ranges:
+                mask = (wl >= r_min) & (wl <= r_max)
+                plt.plot(wl[mask], Tr[mask], "r", alpha=1.0, label="R")  # 빨간색 그래프 선명하게
+                plt.plot(wl[mask], Tgr[mask], "g", alpha=1.0, label="Gr")  # 초록색 그래프 선명하게
+                plt.plot(wl[mask], Tb[mask], "b", alpha=1.0, label="B")  # 파란색 그래프 선명하게   
+                plt.plot(wl[mask], Tgb[mask], color='limegreen', alpha=1.0, label="Gb")  # 초록색 그래프 선명하게         
+            plt.axis([0.35, 0.75, 0, 1])
             plt.xlabel("Wavelength (μm)")
             plt.ylabel("Efficiency")
-            plt.fill([0.400, 0.400, 0.500, 0.500], [-0.03, 1.03, 1.03, -0.03], color='lightblue', alpha=0.5)
-            plt.fill([0.500, 0.500, 0.600, 0.600], [-0.03, 1.03, 1.03, -0.03], color='lightgreen', alpha=0.5)
-            plt.fill([0.600, 0.600, 0.700, 0.700], [-0.03, 1.03, 1.03, -0.03], color='lightcoral', alpha=0.5)
+            plt.fill([0.41, 0.41, 0.49, 0.49], [0.0, 1.0, 1.0, 0.0], color='lightblue', alpha=0.5)
+            plt.fill([0.51, 0.51, 0.59, 0.59], [0.0, 1.0, 1.0, 0.0], color='lightgreen', alpha=0.5)
+            plt.fill([0.61, 0.61, 0.69, 0.69], [0.0, 1.0, 1.0, 0.0], color='lightcoral', alpha=0.5)
             plt.legend(loc="upper right")
             plt.savefig("./"+directory_name+"/QE.png")
             plt.cla()   # clear the current axes
@@ -832,21 +843,31 @@ for i in x_list:
 
         if mp.am_master():
             plt.figure(dpi=150)
-            plt.plot(wl, Tr, "r",)
-            plt.plot(wl, (Tg+Tg0), "g",)
-            plt.plot(wl, Tb, "b",)
-            plt.plot(wl, Trt, "r--",)
-            plt.plot(wl, (Tgt+Tg0t), "g--",)
-            plt.plot(wl, Tbt, "b--",)
-            plt.plot(wl, DTIloss, "k",)
+            # 특정 영역의 범위를 지정
+            highlight_ranges = [(0.41, 0.49), (0.51, 0.59), (0.61, 0.69)]
+            # 전체 그래프를 흐리게 그리기 (alpha 값으로 투명도 조절)
+            plt.plot(wl, Tr, "r", alpha=0.2)  # 빨간색 그래프 흐리게
+            plt.plot(wl, (Tgr+Tgb), "g", alpha=0.2)  # 초록색 그래프 흐리게
+            plt.plot(wl, Tb, "b", alpha=0.2)  # 파란색 그래프 흐리게
+
+            # 강조할 특정 영역만 선명하게 그리기
+            for r_min, r_max in highlight_ranges:
+                mask = (wl >= r_min) & (wl <= r_max)
+                plt.plot(wl[mask], Tr[mask], "r", alpha=1.0, label="R")  # 빨간색 그래프 선명하게
+                plt.plot(wl[mask], (Tgr[mask]+Tgb[mask]), "g", alpha=1.0, label="G")  # 초록색 그래프 선명하게
+                plt.plot(wl[mask], Tb[mask], "b", alpha=1.0, label="B")  # 파란색 그래프 선명하게
+            # plt.plot(wl, Trt, "r--",)
+            # plt.plot(wl, (Tgt+Tg0t), "g--",)
+            # plt.plot(wl, Tbt, "b--",)
+            # plt.plot(wl, DTIloss, "k",)
             #plt.plot(wl, Tg0, color='limegreen', label="Greenpixel2")
             
-            plt.axis([0.40, 0.70, 0, 1])
+            plt.axis([0.35, 0.75, 0, 1])
             plt.xlabel("Wavelength (μm)")
             plt.ylabel("Efficiency")
-            plt.fill([0.400, 0.400, 0.500, 0.500], [-0.03, 1.03, 1.03, -0.03], color='lightblue', alpha=0.5)
-            plt.fill([0.500, 0.500, 0.600, 0.600], [-0.03, 1.03, 1.03, -0.03], color='lightgreen', alpha=0.5)
-            plt.fill([0.600, 0.600, 0.700, 0.700], [-0.03, 1.03, 1.03, -0.03], color='lightcoral', alpha=0.5)
+            plt.fill([0.41, 0.41, 0.49, 0.49], [0.0, 1.0, 1.0, 0.0], color='lightblue', alpha=0.5)
+            plt.fill([0.51, 0.51, 0.59, 0.59], [0.0, 1.0, 1.0, 0.0], color='lightgreen', alpha=0.5)
+            plt.fill([0.61, 0.61, 0.69, 0.69], [0.0, 1.0, 1.0, 0.0], color='lightcoral', alpha=0.5)
             plt.tick_params(axis='x', direction='in', pad = 8)
             plt.tick_params(axis='y', direction='in', pad = 10)
             #plt.show()
@@ -884,21 +905,31 @@ for i in x_list:
 
         if mp.am_master():
             plt.figure(dpi=150)
-            plt.plot(wl, Tr, "r",)
-            plt.plot(wl, Tg, "g",)
-            plt.plot(wl, Tb, "b",)
-            plt.plot(wl, Trt, "r--",)
-            plt.plot(wl, Tgt, "g--",)
-            plt.plot(wl, Tbt, "b--",)
-            plt.plot(wl, DTIloss, "k",)
+            # 특정 영역의 범위를 지정
+            highlight_ranges = [(0.41, 0.49), (0.51, 0.59), (0.61, 0.69)]
+            # 전체 그래프를 흐리게 그리기 (alpha 값으로 투명도 조절)
+            plt.plot(wl, Tr, "r", alpha=0.2)  # 빨간색 그래프 흐리게
+            plt.plot(wl, (Tg+Tg0), "g", alpha=0.2)  # 초록색 그래프 흐리게
+            plt.plot(wl, Tb, "b", alpha=0.2)  # 파란색 그래프 흐리게
+
+            # 강조할 특정 영역만 선명하게 그리기
+            for r_min, r_max in highlight_ranges:
+                mask = (wl >= r_min) & (wl <= r_max)
+                plt.plot(wl[mask], Tr[mask], "r", alpha=1.0, label="R")  # 빨간색 그래프 선명하게
+                plt.plot(wl[mask], (Tg[mask]+Tg0[mask]), "g", alpha=1.0, label="G")  # 초록색 그래프 선명하게
+                plt.plot(wl[mask], Tb[mask], "b", alpha=1.0, label="B")  # 파란색 그래프 선명하게
+            # plt.plot(wl, Trt, "r--",)
+            # plt.plot(wl, Tgt, "g--",)
+            # plt.plot(wl, Tbt, "b--",)
+            # plt.plot(wl, DTIloss, "k",)
             #plt.plot(wl, Tg0, color='limegreen', label="Greenpixel2")
             
-            plt.axis([0.40, 0.70, 0, 1])
+            plt.axis([0.35, 0.75, 0, 1])
             plt.xlabel("Wavelength (μm)")
             plt.ylabel("Efficiency")
-            plt.fill([0.400, 0.400, 0.500, 0.500], [-0.03, 1.03, 1.03, -0.03], color='lightblue', alpha=0.5)
-            plt.fill([0.500, 0.500, 0.600, 0.600], [-0.03, 1.03, 1.03, -0.03], color='lightgreen', alpha=0.5)
-            plt.fill([0.600, 0.600, 0.700, 0.700], [-0.03, 1.03, 1.03, -0.03], color='lightcoral', alpha=0.5)
+            plt.fill([0.41, 0.41, 0.49, 0.49], [0.0, 1.0, 1.0, 0.0], color='lightblue', alpha=0.5)
+            plt.fill([0.51, 0.51, 0.59, 0.59], [0.0, 1.0, 1.0, 0.0], color='lightgreen', alpha=0.5)
+            plt.fill([0.61, 0.61, 0.69, 0.69], [0.0, 1.0, 1.0, 0.0], color='lightcoral', alpha=0.5)
             plt.tick_params(axis='x', direction='in', pad = 8)
             plt.tick_params(axis='y', direction='in', pad = 10)
             #plt.show()
@@ -923,17 +954,28 @@ for i in x_list:
 
         if mp.am_master():
             plt.figure(dpi=150)
-            plt.plot(wl, Tr, "r", label="R")
-            plt.plot(wl, (Tgr+Tgb), "g", label="Gb")
-            plt.plot(wl, Tb, "b", label="B")
+            # 특정 영역의 범위를 지정
+            highlight_ranges = [(0.41, 0.49), (0.51, 0.59), (0.61, 0.69)]
+
+            # 전체 그래프를 흐리게 그리기 (alpha 값으로 투명도 조절)
+            plt.plot(wl, Tr, "r", alpha=0.2)  # 빨간색 그래프 흐리게
+            plt.plot(wl, (Tgr+Tgb), "g", alpha=0.2)  # 초록색 그래프 흐리게
+            plt.plot(wl, Tb, "b", alpha=0.2)  # 파란색 그래프 흐리게
+
+            # 강조할 특정 영역만 선명하게 그리기
+            for r_min, r_max in highlight_ranges:
+                mask = (wl >= r_min) & (wl <= r_max)
+                plt.plot(wl[mask], Tr[mask], "r", alpha=1.0, label="R")  # 빨간색 그래프 선명하게
+                plt.plot(wl[mask], (Tgr[mask]+Tgb[mask]), "g", alpha=1.0, label="G")  # 초록색 그래프 선명하게
+                plt.plot(wl[mask], Tb[mask], "b", alpha=1.0, label="B")  # 파란색 그래프 선명하게
             # plt.plot(wl, Tgb, color='limegreen', label="Gr")
             
-            plt.axis([0.40, 0.70, 0, 1])
+            plt.axis([0.35, 0.75, 0, 1])
             plt.xlabel("Wavelength (μm)")
             plt.ylabel("Efficiency")
-            plt.fill([0.400, 0.400, 0.500, 0.500], [-0.03, 1.03, 1.03, -0.03], color='lightblue', alpha=0.5)
-            plt.fill([0.500, 0.500, 0.600, 0.600], [-0.03, 1.03, 1.03, -0.03], color='lightgreen', alpha=0.5)
-            plt.fill([0.600, 0.600, 0.700, 0.700], [-0.03, 1.03, 1.03, -0.03], color='lightcoral', alpha=0.5)
+            plt.fill([0.41, 0.41, 0.49, 0.49], [0.0, 1.0, 1.0, 0.0], color='lightblue', alpha=0.5)
+            plt.fill([0.51, 0.51, 0.59, 0.59], [0.0, 1.0, 1.0, 0.0], color='lightgreen', alpha=0.5)
+            plt.fill([0.61, 0.61, 0.69, 0.69], [0.0, 1.0, 1.0, 0.0], color='lightcoral', alpha=0.5)
             plt.legend(loc="upper right")
             plt.savefig("./"+directory_name+"/GQE.png")
             plt.cla()   # clear the current axes
@@ -961,12 +1003,12 @@ for i in x_list:
             plt.plot(wl, Rs, "b", label="reflectance")
             plt.plot(wl, Ts, "r", label="transmittance")
             plt.plot(wl, 1 - Rs - Ts, "g", label="loss")
-            plt.axis([0.40, 0.70, 0, 1])
+            plt.axis([0.35, 0.75, 0, 1])
             plt.xlabel("Wavelength (μm)")
             plt.ylabel("Transmittance")
-            plt.fill([0.40, 0.40, 0.50, 0.50], [0.0, 1.0, 1.0, 0.0], color='lightblue', alpha=0.5)
-            plt.fill([0.50, 0.50, 0.60, 0.60], [0.0, 1.0, 1.0, 0.0], color='lightgreen', alpha=0.5)
-            plt.fill([0.60, 0.60, 0.70, 0.70], [0.0, 1.0, 1.0, 0.0], color='lightcoral', alpha=0.5)
+            plt.fill([0.41, 0.41, 0.49, 0.49], [0.0, 1.0, 1.0, 0.0], color='lightblue', alpha=0.5)
+            plt.fill([0.51, 0.51, 0.59, 0.59], [0.0, 1.0, 1.0, 0.0], color='lightgreen', alpha=0.5)
+            plt.fill([0.61, 0.61, 0.69, 0.69], [0.0, 1.0, 1.0, 0.0], color='lightcoral', alpha=0.5)
             plt.legend(loc="upper right")
             #plt.show()
             plt.savefig("./"+directory_name+"/QE_data/T_R.png")

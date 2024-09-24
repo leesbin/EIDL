@@ -47,13 +47,13 @@ simcondition = True                                                 #
 designplot = True                                                   #
 DFTfield = False                                                     #
 Opticaleff = True                                                   #  
-layerplot = True                                                    #
-Sensitivity = True                                                  #
-Crosstalk = True                                                    #
-Discrete = True                                                     #
+layerplot = False                                                    #
+Sensitivity = False                                                  #
+Crosstalk = False                                                    #
+Discrete = False                                                     #
 #####################################################################
 
-x_list = [0,1,2]
+x_list = [2]
 
 def make_dir(i):
     if i == 0:
@@ -730,6 +730,8 @@ for i in x_list:
 
         opt.sim.run(until_after_sources=mp.stop_when_dft_decayed(1e-6, 0))
 
+
+
         #데이터 저장
 
         straight_refl_data = opt.sim.get_flux_data(refl)
@@ -831,16 +833,16 @@ for i in x_list:
         if mp.am_master():
             plt.figure(dpi=150)
             plt.plot(wl, Tr, "r", label="R")
-            plt.plot(wl, Tgr, "g", label="Gb")
+            plt.plot(wl, Tgr, "g", label="G")
             plt.plot(wl, Tb, "b", label="B")
             plt.plot(wl, Tgb, color='limegreen', label="Gr")
             
-            plt.axis([0.40, 0.70, 0, 1])
+            plt.axis([0.35, 0.75, 0, 1])
             plt.xlabel("Wavelength (μm)")
             plt.ylabel("Efficiency")
-            plt.fill([0.400, 0.400, 0.500, 0.500], [-0.03, 1.03, 1.03, -0.03], color='lightblue', alpha=0.5)
-            plt.fill([0.500, 0.500, 0.600, 0.600], [-0.03, 1.03, 1.03, -0.03], color='lightgreen', alpha=0.5)
-            plt.fill([0.600, 0.600, 0.700, 0.700], [-0.03, 1.03, 1.03, -0.03], color='lightcoral', alpha=0.5)
+            plt.fill([0.41, 0.41, 0.49, 0.49], [0.0, 1.0, 1.0, 0.0], color='lightblue', alpha=0.5)
+            plt.fill([0.51, 0.51, 0.59, 0.59], [0.0, 1.0, 1.0, 0.0], color='lightgreen', alpha=0.5)
+            plt.fill([0.61, 0.61, 0.69, 0.69], [0.0, 1.0, 1.0, 0.0], color='lightcoral', alpha=0.5)
             plt.legend(loc="upper right")
             plt.savefig("./"+directory_name+"/QE.png")
             plt.cla()   # clear the current axes
@@ -879,18 +881,18 @@ for i in x_list:
             plt.plot(wl, Tr, "r",)
             plt.plot(wl, (Tg+Tg0), "g",)
             plt.plot(wl, Tb, "b",)
-            plt.plot(wl, Trt, "r--",)
-            plt.plot(wl, (Tgt+Tg0t), "g--",)
-            plt.plot(wl, Tbt, "b--",)
-            plt.plot(wl, DTIloss, "k",)
+            # plt.plot(wl, Trt, "r--",)
+            # plt.plot(wl, (Tgt+Tg0t), "g--",)
+            # plt.plot(wl, Tbt, "b--",)
+            # plt.plot(wl, DTIloss, "k",)
             #plt.plot(wl, Tg0, color='limegreen', label="Greenpixel2")
             
-            plt.axis([0.40, 0.70, 0, 1])
+            plt.axis([0.35, 0.75, 0, 1])
             plt.xlabel("Wavelength (μm)")
             plt.ylabel("Efficiency")
-            plt.fill([0.400, 0.400, 0.500, 0.500], [-0.03, 1.03, 1.03, -0.03], color='lightblue', alpha=0.5)
-            plt.fill([0.500, 0.500, 0.600, 0.600], [-0.03, 1.03, 1.03, -0.03], color='lightgreen', alpha=0.5)
-            plt.fill([0.600, 0.600, 0.700, 0.700], [-0.03, 1.03, 1.03, -0.03], color='lightcoral', alpha=0.5)
+            plt.fill([0.41, 0.41, 0.49, 0.49], [0.0, 1.0, 1.0, 0.0], color='lightblue', alpha=0.5)
+            plt.fill([0.51, 0.51, 0.59, 0.59], [0.0, 1.0, 1.0, 0.0], color='lightgreen', alpha=0.5)
+            plt.fill([0.61, 0.61, 0.69, 0.69], [0.0, 1.0, 1.0, 0.0], color='lightcoral', alpha=0.5)
             plt.tick_params(axis='x', direction='in', pad = 8)
             plt.tick_params(axis='y', direction='in', pad = 10)
             #plt.show()
@@ -931,18 +933,18 @@ for i in x_list:
             plt.plot(wl, Tr, "r",)
             plt.plot(wl, Tg, "g",)
             plt.plot(wl, Tb, "b",)
-            plt.plot(wl, Trt, "r--",)
-            plt.plot(wl, Tgt, "g--",)
-            plt.plot(wl, Tbt, "b--",)
-            plt.plot(wl, DTIloss, "k",)
+            # plt.plot(wl, Trt, "r--",)
+            # plt.plot(wl, Tgt, "g--",)
+            # plt.plot(wl, Tbt, "b--",)
+            # plt.plot(wl, DTIloss, "k",)
             #plt.plot(wl, Tg0, color='limegreen', label="Greenpixel2")
             
-            plt.axis([0.40, 0.70, 0, 1])
+            plt.axis([0.35, 0.75, 0, 1])
             plt.xlabel("Wavelength (μm)")
             plt.ylabel("Efficiency")
-            plt.fill([0.400, 0.400, 0.500, 0.500], [-0.03, 1.03, 1.03, -0.03], color='lightblue', alpha=0.5)
-            plt.fill([0.500, 0.500, 0.600, 0.600], [-0.03, 1.03, 1.03, -0.03], color='lightgreen', alpha=0.5)
-            plt.fill([0.600, 0.600, 0.700, 0.700], [-0.03, 1.03, 1.03, -0.03], color='lightcoral', alpha=0.5)
+            plt.fill([0.41, 0.41, 0.49, 0.49], [0.0, 1.0, 1.0, 0.0], color='lightblue', alpha=0.5)
+            plt.fill([0.51, 0.51, 0.59, 0.59], [0.0, 1.0, 1.0, 0.0], color='lightgreen', alpha=0.5)
+            plt.fill([0.61, 0.61, 0.69, 0.69], [0.0, 1.0, 1.0, 0.0], color='lightcoral', alpha=0.5)
             plt.tick_params(axis='x', direction='in', pad = 8)
             plt.tick_params(axis='y', direction='in', pad = 10)
             #plt.show()
@@ -968,16 +970,16 @@ for i in x_list:
         if mp.am_master():
             plt.figure(dpi=150)
             plt.plot(wl, Tr, "r", label="R")
-            plt.plot(wl, (Tgr+Tgb), "g", label="Gb")
+            plt.plot(wl, (Tgr+Tgb), "g", label="G")
             plt.plot(wl, Tb, "b", label="B")
             # plt.plot(wl, Tgb, color='limegreen', label="Gr")
             
-            plt.axis([0.40, 0.70, 0, 1])
+            plt.axis([0.35, 0.75, 0, 1])
             plt.xlabel("Wavelength (μm)")
             plt.ylabel("Efficiency")
-            plt.fill([0.400, 0.400, 0.500, 0.500], [-0.03, 1.03, 1.03, -0.03], color='lightblue', alpha=0.5)
-            plt.fill([0.500, 0.500, 0.600, 0.600], [-0.03, 1.03, 1.03, -0.03], color='lightgreen', alpha=0.5)
-            plt.fill([0.600, 0.600, 0.700, 0.700], [-0.03, 1.03, 1.03, -0.03], color='lightcoral', alpha=0.5)
+            plt.fill([0.41, 0.41, 0.49, 0.49], [0.0, 1.0, 1.0, 0.0], color='lightblue', alpha=0.5)
+            plt.fill([0.51, 0.51, 0.59, 0.59], [0.0, 1.0, 1.0, 0.0], color='lightgreen', alpha=0.5)
+            plt.fill([0.61, 0.61, 0.69, 0.69], [0.0, 1.0, 1.0, 0.0], color='lightcoral', alpha=0.5)
             plt.legend(loc="upper right")
             plt.savefig("./"+directory_name+"/GQE.png")
             plt.cla()   # clear the current axes
@@ -1005,12 +1007,12 @@ for i in x_list:
             plt.plot(wl, Rs, "b", label="reflectance")
             plt.plot(wl, Ts, "r", label="transmittance")
             plt.plot(wl, 1 - Rs - Ts, "g", label="loss")
-            plt.axis([0.40, 0.70, 0, 1])
+            plt.axis([0.35, 0.75, 0, 1])
             plt.xlabel("Wavelength (μm)")
             plt.ylabel("Transmittance")
-            plt.fill([0.40, 0.40, 0.50, 0.50], [0.0, 1.0, 1.0, 0.0], color='lightblue', alpha=0.5)
-            plt.fill([0.50, 0.50, 0.60, 0.60], [0.0, 1.0, 1.0, 0.0], color='lightgreen', alpha=0.5)
-            plt.fill([0.60, 0.60, 0.70, 0.70], [0.0, 1.0, 1.0, 0.0], color='lightcoral', alpha=0.5)
+            plt.fill([0.41, 0.41, 0.49, 0.49], [0.0, 1.0, 1.0, 0.0], color='lightblue', alpha=0.5)
+            plt.fill([0.51, 0.51, 0.59, 0.59], [0.0, 1.0, 1.0, 0.0], color='lightgreen', alpha=0.5)
+            plt.fill([0.61, 0.61, 0.69, 0.69], [0.0, 1.0, 1.0, 0.0], color='lightcoral', alpha=0.5)
             plt.legend(loc="upper right")
             #plt.show()
             plt.savefig("./"+directory_name+"/QE_data/T_R.png")
