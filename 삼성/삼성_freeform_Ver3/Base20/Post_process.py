@@ -202,7 +202,7 @@ for i in x_list:
 
         if True: #####  Set geometry  ################################################################################################################################
             # structure load
-            structure_weight = np.loadtxt('structure_24.txt')
+            structure_weight = np.loadtxt('lastdesign.txt')
             # structure_weight_1 = np.loadtxt('lastdesign2.txt')
             # structure_weight_2 = np.loadtxt('lastdesign3.txt')
             # structure_weight_3 = np.loadtxt('lastdesign4.txt')
