@@ -882,7 +882,7 @@ for i in design:
     if mp.am_master():
         plt.figure(dpi=150)
         plt.plot(wl, Tr, "r", label="Redpixel")
-        plt.plot(wl, Tg, "g", label="Greenpixel1")
+        plt.plot(wl, Tg, "g", label="Greenpixel")
         plt.plot(wl, Tb, "b", label="Bluepixel")
         
         plt.axis([0.40, 0.70, 0, 1])
@@ -913,7 +913,7 @@ for i in design:
     if mp.am_master():
         plt.figure(dpi=150)
         plt.plot(wl, Tr, "r", label="Redpixel")
-        plt.plot(wl, Tg, "g", label="Greenpixel1")
+        plt.plot(wl, Tg, "g", label="Greenpixel")
         plt.plot(wl, Tb, "b", label="Bluepixel")
 
         
