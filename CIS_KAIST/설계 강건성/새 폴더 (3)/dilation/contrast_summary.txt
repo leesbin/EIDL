@@ -1,0 +1,2 @@
+max_contrast: 0.9531568972947775
+max_contrast_wavelength: 0.6519061583577712

@@ -1,0 +1,3 @@
+Mean Error Rate (Red): 0.00%
+Mean Error Rate (Green): 0.00%
+Mean Error Rate (Blue): 0.00%
